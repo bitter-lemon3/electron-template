@@ -6,7 +6,9 @@
  * @FilePath: \electron-template\src\renderer\src\App.vue
  * @Description: 
 -->
-<template></template>
+<template>
+   <router-view></router-view>
+</template>
 
 <script setup lang="ts">
 </script>

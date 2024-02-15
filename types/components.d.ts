@@ -8,5 +8,10 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ElButton: typeof import('element-plus/es')['ElButton']
+    MainPage: typeof import('./../src/renderer/src/components/MainPage.vue')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
+    SubsubWindow: typeof import('./../src/renderer/src/components/sub_window/subsub_window/SubsubWindow.vue')['default']
+    SubWindow: typeof import('./../src/renderer/src/components/sub_window/SubWindow.vue')['default']
   }
 }
