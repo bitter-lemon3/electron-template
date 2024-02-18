@@ -107,7 +107,8 @@ function createWindow(): void {
 
 //创建子窗口
 ipcMain.on('newWindow',(_event,newWindow)=>{
-  console.log(newWindow.path.split("/")[-1])
+  console.log('2',newWindow.path)
+  console.log('1',newWindow.path.split("/")[newWindow.path.split("/").length-1])
   subWindow = new BrowserWindow({
       height: 400,
       width: 400,
@@ -137,6 +138,9 @@ ipcMain.on('newWindow',(_event,newWindow)=>{
       subWindow.show();
       // 缓存这个 subWindow到map里
       subWindosMaps[newWindow.name] = subWindow;
+      console.log(newWindow.name.replace('subwindow',''))
+      mainWindow.webContents.send('subwindow-ready',newWindow.name.replace('subwindow',''))
+     
       if (process.env.NODE_ENV === 'development') {
         subWindow.webContents.openDevTools({
           mode: 'undocked',
@@ -152,6 +156,7 @@ ipcMain.on('newWindow',(_event,newWindow)=>{
   subWindow.on('closed', () => {
       // 注销所有事件监听
       subWindow.destroy();
+      mainWindow.webContents.send('subwindow-closed',newWindow.name.replace('subwindow',''))
       mainWindow.send('subwindow-closed',{...newWindow.name,msg:"这是子窗口关闭时发来的消息"});
       delete subWindosMaps[newWindow.name]
       console.log('closed' + newWindow.name)
@@ -160,8 +165,8 @@ ipcMain.on('newWindow',(_event,newWindow)=>{
   else{
       // console.log(winURL+"/#/sub") //开发和构件时路由方式不同，不能用这个
   const modalPath = process.env.NODE_ENV === 'development'
-  ?process.env['ELECTRON_RENDERER_URL']+'/#/sub/'+ newWindow.path.split('/')[newWindow.path.split("/").length-1] +'/#/subsub/'+ newWindow.name
-  : `file://${__dirname}/index.html#sub/${newWindow.path.split('/')[newWindow.path.split("/").length-1]}/#/subsub/${newWindow.name}`
+  ?process.env['ELECTRON_RENDERER_URL']+'/#/sub/'+ newWindow.path.split('/')[newWindow.path.split("/").length-1] +'/subsub/'+ newWindow.name
+  : `file://${__dirname}/index.html#sub/${newWindow.path.split('/')[newWindow.path.split("/").length-1]}/subsub/${newWindow.name}`
   console.log(modalPath)
   subWindow.loadURL(modalPath);
   
