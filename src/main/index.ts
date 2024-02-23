@@ -12,7 +12,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import log from 'electron-log/main' // error, warn, info, verbose, debug, silly
 import { initLogs } from './services/log'
-
+import { ConfigWindow } from './configWindow'
 global.logHome = 'log'
 global.logLevel = 'debug'
 initLogs()
@@ -68,17 +68,10 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
   // //Create the second browser window
-  const secondWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
-    show: true,
-    autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
-    webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
-    }
-  })
+  let config = new ConfigWindow()
+  config.width = 900
+  config.height = 600
+  const secondWindow = new BrowserWindow(config)
   console.log(process.env['ELECTRON_RENDERER_URL'])
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
      secondWindow.loadURL(process.env['ELECTRON_RENDERER_URL']+'/status1.html')
