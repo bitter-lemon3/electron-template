@@ -10,8 +10,8 @@ export class ConfigWindow implements BrowserWindowConstructorOptions {
   y?: number
   alwaysOnTop?: boolean
   skipTaskbar?: boolean
-  frame = false
-  show = true
+  frame = true
+  show = false
   webPreferences = new ConfigWebPreferences()
   nodeIntegrationInSubFrames = true
   nativeWindowOpen = true

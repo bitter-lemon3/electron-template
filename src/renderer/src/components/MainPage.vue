@@ -23,13 +23,16 @@
     subwindows[newButton] = 0
   }
   console.log(route.path)
-
+  let newWindowNum = 0
     const create = (buttonName) => {
-      if(subwindows[buttonName]==0){
-        const newWindow = {name:`subwindow${buttonName}`,path:route.path}
-        window.electron.ipcRenderer.send('newWindow',newWindow)
-      }
-    
+     
+      const windowParam = {url:'subwindow'+buttonName+newWindowNum,
+      name:`subwindow${buttonName}${newWindowNum}`,
+  width: 800,
+  height: 600}
+  console.log(windowParam)
+    window.electron.ipcRenderer.send('loadWindow',windowParam)
+    newWindowNum++
     }
     window.electron.ipcRenderer.on('subwindow-ready',(_event,buttonName)=>{
       console.log('buttonName',buttonName)
