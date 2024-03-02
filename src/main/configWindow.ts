@@ -15,7 +15,7 @@ export class ConfigWindow implements BrowserWindowConstructorOptions {
   webPreferences = new ConfigWebPreferences()
   nodeIntegrationInSubFrames = true
   nativeWindowOpen = true
-  momodalable = false
+  modalable = false
   parent?: any
   movable = true
   thickFrame = true

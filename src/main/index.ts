@@ -51,10 +51,10 @@ function createWindow(): void {
    // 主窗口要关闭的时候 关闭所有未关闭的子窗口
    mainWindow.on('close',(_a,_b)=>{
     console.log("close 事件")
-    for(var key in subWindosMaps){
-        let subWin = subWindosMaps[key];
-        subWin && subWin.destroy();
+    for(var subWin of WindowPool.items){
+         subWin.win.destroy();
     }
+    WindowPool.items = []
     mainWindow = null
 })
 

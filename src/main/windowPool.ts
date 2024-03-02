@@ -7,6 +7,7 @@ class WindowPoolItem{
     constructor(){
       let config = new ConfigWindow();
       this.win = new BrowserWindow(config);
+      this.initEvent()
       this.loadUrl(this.win, '/blank')
     }
     loadUrl(win:BrowserWindow,url:string){
@@ -27,12 +28,24 @@ class WindowPoolItem{
     }
     initEvent() {
         this.win.on('close', () => {
+          console.log("close",this.param?.url.split('/').length==1)
           for (let i = 0; i < WindowPool.items.length; i++) {
-            if (WindowPool.items[i].param?.url === this.param?.url) {
-              WindowPool.items.splice(i, 1)
+            console.log('1',WindowPool.items[i].param?.url)
+             if (WindowPool.items[i].param?.url === this.param?.url) {
+               WindowPool.items.splice(i, 1)
+             }
+          }
+          if(this.param?.url.split('/').length==1){
+            for (let i = 0; i < WindowPool.items.length; i++){
+              if (WindowPool.items[i].param?.url.split('/')[0] === this.param?.url) {
+                WindowPool.items[i].win.destroy()
+                WindowPool.items.splice(i, 1)
             }
           }
-        })
+          
+          
+        }
+      })
     }
   }
  export class WindowPool{
